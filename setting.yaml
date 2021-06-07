@@ -1,0 +1,7 @@
+log:
+  logFilePath: "."
+  logFileName: "toy-vote"
+  level: "debug"
+  deployStage: "develop"
+  maxAge: 3
+  maxSize: 5
