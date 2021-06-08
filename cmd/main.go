@@ -2,14 +2,17 @@ package main
 
 import (
 	"context"
-	"github.com/easy-project-templete/internal/service"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	pkgLog "github.com/easy-project-templete/pkg/log"
-	"github.com/easy-project-templete/config"
+	"github.com/cjphaha/eDefender/config"
+	"github.com/cjphaha/eDefender/internal/server"
+	"github.com/cjphaha/eDefender/internal/service"
+	pkgLog "github.com/cjphaha/eDefender/pkg/log"
+	_ "github.com/cjphaha/eDefender/plugin/goPlugins"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -22,14 +25,24 @@ func main() {
 		os.Exit(1)
 	}
 	// new service
-	_, err = service.New()
+	srv, err := service.New(config.AppConfig.Service)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 
-	ctx, _ := context.WithCancel(context.Background())
+	// new server
+	ctx, cancel := context.WithCancel(context.Background())
+	s, err := server.New(ctx, cancel, srv, config.AppConfig.Server)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
 
+	// start program
+	go s.Start()
+	// welecome
+	fmt.Println(config.AppConfig.Base.Welecome)
 	initSignal(ctx)
 }
 
