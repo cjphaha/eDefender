@@ -49,8 +49,9 @@ func (s *server) Start() {
 }
 
 func (s *server) SetRouter() {
-	g := s.router.Group("/api")
 
+	g := s.router.Group("/api")
+	g.Use(middleware.Cors())
 	s.unAuthRouter(g)
 }
 
