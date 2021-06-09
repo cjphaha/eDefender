@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"github.com/cjphaha/eDefender/common/middleware"
 	"github.com/cjphaha/eDefender/internal/service"
 	"github.com/cjphaha/eDefender/plugin"
@@ -67,7 +68,12 @@ func (s *server) unAuthRouter(g *gin.RouterGroup) {
 		c.JSON(200, result)
 	})
 	g.GET("/info", func(c *gin.Context) {
-		info := s.srv.GetInfo()
+		var info service.Info
+		if s.srv == nil {
+			fmt.Println("srv nil")
+		} else {
+			info = s.srv.GetInfo()
+		}
 		c.JSON(http.StatusOK, info)
 	})
 }

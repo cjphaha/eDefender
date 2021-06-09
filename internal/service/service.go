@@ -7,7 +7,7 @@ import (
 )
 
 type Service interface {
-	GetInfo() (info *Info)
+	GetInfo() (info Info)
 }
 
 type service struct {
@@ -21,7 +21,7 @@ func New(c *Config) (Service, error) {
 	return srv, nil
 }
 
-func (s *service) GetInfo() (info *Info){
+func (s *service) GetInfo() (info Info){
 	info.Host = getHostInfo()
 	//获取内存使用率 同时定时
 	percent, _ := cpu.Percent(time.Second * 14, false)//设置间隔时间
