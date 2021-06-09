@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 5000
+  timeout: 50000
 })
 
 service.interceptors.request.use(
@@ -33,8 +33,7 @@ service.interceptors.response.use(
   },
   error => {
     Message({
-      message: '错误码: ' + error.response.data.status + '    错误信息: ' + error.response.data.message,
-      type: 'error',
+      message: '错误码: ' + error.response.status,
       duration: 5 * 1000
     })
     return Promise.reject(error)

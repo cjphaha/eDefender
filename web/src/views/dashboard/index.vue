@@ -8,7 +8,7 @@
             <side></side>
         </el-aside>
         <el-main>
-            <status></status>
+            <router-view></router-view>
         </el-main>
         </el-container>
 
@@ -18,11 +18,9 @@
 
 <script>
 import side from '@/views/dashboard/components/side'
-import status from '@/views/dashboard/components/status'
 export default {
   components: {
-    side,
-    status
+    side
   }
 }
 </script>

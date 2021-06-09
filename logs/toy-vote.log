@@ -1,6 +1,0 @@
-time="2021-06-09T15:20:26+08:00" level=info msg="get signal interrupt"
-time="2021-06-09T15:20:26+08:00" level=warning msg="app exit now..."
-time="2021-06-09T15:20:37+08:00" level=info msg="cors middleware opened"
-time="2021-06-09T15:20:37+08:00" level=info msg="gin http server start at &{8067 true}"
-time="2021-06-09T15:28:59+08:00" level=info msg="get signal interrupt"
-time="2021-06-09T15:28:59+08:00" level=warning msg="app exit now..."

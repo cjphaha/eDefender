@@ -34,7 +34,7 @@ func getMemInfo() (map[string]string) {
 	memdata["可用"] = available
 	memdata["已使用"] = used
 	memdata["空闲"] = free
-	memdata["使用率"] = userPercent + "%"
+	memdata["使用率"] = userPercent
 
 	return memdata
 }
@@ -50,7 +50,7 @@ func getCpuInfo(percent string) []map[string]string {
 		cpudata := make(map[string]string)
 		cpudata["型号"] = ci.ModelName
 		cpudata["数量"] = fmt.Sprint(ci.Cores)
-		cpudata["使用率"] = percent + "%"
+		cpudata["使用率"] = percent
 
 		cpudatas = append(cpudatas, cpudata)
 	}
