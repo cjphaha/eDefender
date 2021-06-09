@@ -2,10 +2,9 @@ package goplugin
 
 import (
 	"fmt"
-	"strings"
-
-	"github.com/cjphaha/eDefender/plugin"
 	"github.com/cjphaha/eDefender/pkg/util"
+	"github.com/cjphaha/eDefender/plugin"
+	"strings"
 )
 
 type zookeeperUnauth struct {
@@ -22,7 +21,7 @@ func (d *zookeeperUnauth) Init() plugin.Plugin {
 		Remarks: "导致敏感信息泄露。",
 		Level:   2,
 		Type:    "UNAUTH",
-		Author:  "wolf",
+		Author:  "cjp",
 		References: plugin.References{
 			KPID: "KP-0029",
 		},
@@ -35,18 +34,21 @@ func (d *zookeeperUnauth) GetResult() []plugin.Plugin {
 	return result
 }
 func (d *zookeeperUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
-	if strings.IndexAny(netloc, "http") == 0 {
-		return false
-	}
 	buf, err := util.TCPSend(netloc, []byte("envi"), 15)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println(string(buf))
 	if err == nil && strings.Contains(string(buf), "Environment") {
 		result := d.info
 		result.Request = fmt.Sprintf("zookeeper://%s", netloc)
 		result.Response = string(buf)
 		result.Remarks = fmt.Sprintf("未授权访问，%s", result.Remarks)
 		d.result = append(d.result, result)
+		fmt.Println(d.result)
 		return true
 	}
+
 	return false
 }
 

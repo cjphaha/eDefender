@@ -48,16 +48,16 @@ func (s *server) Start() {
 }
 
 func (s *server) SetRouter() {
-	g := s.router.Group("/")
+	g := s.router.Group("/api")
 
 	s.unAuthRouter(g)
 }
 
 func (s *server) unAuthRouter(g *gin.RouterGroup) {
-	g.GET("/api/pluginList", func(c *gin.Context) {
+	g.GET("/pluginList", func(c *gin.Context) {
 		c.JSON(200, plugin.GetPlugins())
 	})
-	g.POST("/api/check", func(c *gin.Context) {
+	g.POST("/check", func(c *gin.Context) {
 		var json plugin.Task
 		if err := c.ShouldBindJSON(&json); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -65,6 +65,10 @@ func (s *server) unAuthRouter(g *gin.RouterGroup) {
 		}
 		result := plugin.Scan(json)
 		c.JSON(200, result)
+	})
+	g.GET("/info", func(c *gin.Context) {
+		info := s.srv.GetInfo()
+		c.JSON(http.StatusOK, info)
 	})
 }
 

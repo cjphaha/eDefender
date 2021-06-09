@@ -1,6 +1,7 @@
 package plugin
 
 import (
+	"fmt"
 	"github.com/cjphaha/eDefender/pkg/util"
 	log "github.com/sirupsen/logrus"
 	"sort"
@@ -111,17 +112,21 @@ func Scan(task Task) (result []map[string]interface{}) {
 }
 
 func pluginRun(taskInfo Task, plugin GoPlugin) (result []map[string]interface{}) {
-	var hasVul bool
-	try(func() {
-		hasVul = plugin.Check(taskInfo.Netloc, taskInfo.Meta)
-	}, func(e interface{}) {
-		log.Println("panic", e)
-	})
-	if hasVul == false {
-		return
-	}
+	//var hasVul bool
+	//try(func() {
+	//	hasVul = plugin.Check(taskInfo.Netloc, taskInfo.Meta)
+	//}, func(e interface{}) {
+	//	log.Println("panic", e)
+	//})
+
+	plugin.Check(taskInfo.Netloc, taskInfo.Meta)
+	//if hasVul == false {
+	//	log.Info("hasVul == false")
+	//	return
+	//}
 	for _, res := range plugin.GetResult() {
 		log.Info("hit plugin:", res.Name)
+		fmt.Println(res)
 		result = append(result, util.Struct2Map(res))
 	}
 	return result
